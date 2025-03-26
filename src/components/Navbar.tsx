@@ -27,13 +27,13 @@ const Navbar = ({ currentPage, setCurrentPage }: NavbarProps) => {
         Animals
       </a>
       {/* Other nav items */}
-      <a className="transition-all duration-300 hover:scale-90" href="#">Visit</a>
-      <a className="transition-all duration-300 hover:scale-90" href="#">Programs</a>
-      <a className="transition-all duration-300 hover:scale-90" href="#">About</a>
-      <a className="transition-all duration-300 hover:scale-90" href="#">Blog</a>
-      <a className="transition-all duration-300 hover:scale-90" href="#">Store</a>
-      <a className="transition-all duration-300 hover:scale-90" href="#">Donate</a>
-      <a className="transition-all duration-300 hover:scale-90" href="#">Legacy Giving</a>
+      <a className="transition-all duration-300 hover:scale-110" href="#">Visit</a>
+      <a className="transition-all duration-300 hover:scale-110" href="#">Programs</a>
+      <a className="transition-all duration-300 hover:scale-110" href="#">About</a>
+      <a className="transition-all duration-300 hover:scale-110" href="#">Blog</a>
+      <a className="transition-all duration-300 hover:scale-110" href="#">Store</a>
+      <a className="transition-all duration-300 hover:scale-110" href="#">Donate</a>
+      <a className="transition-all duration-300 hover:scale-110" href="#">Legacy Giving</a>
     </nav>
   )
 }
