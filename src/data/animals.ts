@@ -1,33 +1,32 @@
-import { Animal } from '../types/animals'
+import { Animal, Location } from '../types/animals'
 
-export const animals: Animal[] = [
-  {
-    id: 'worthy',
-    name: 'Worthy',
-    type: 'horse',
-    location: 'CA',
-    shortDescription: 'A Belgian draft horse who pulled carriages and carts his whole life.',
-    fullStory: 'When Worthy first arrived at The Gentle Barn, he was severely undernourished and frightened of human contact. Through patience, dedication, and lots of love, he has transformed into a gentle giant who loves giving kisses and helping with our healing programs.',
-    images: {
-      thumbnail: '/src/assets/animalCard-Worthy/worth-small-img.jpg',
-      hero: '/src/assets/animalCard-Worthy/hero-worthy.jpg',
-    },
-    sponsorshipDetails: {
-      monthlyGoal: 100,
-      currentSponsors: 12
-    }
-  },
-  // Add more animals here...
-]
+// This will be our main animals array when we have more data
+export const animals: Animal[] = []
 
-export const getAnimalsByType = (type: string) => {
+// Utility functions for filtering and finding animals
+export const getAnimalsByType = (type: string): Animal[] => {
   return animals.filter(animal => animal.type === type)
 }
 
-export const getAnimalById = (id: string) => {
+export const getAnimalById = (id: string): Animal | undefined => {
   return animals.find(animal => animal.id === id)
 }
 
-export const getAnimalsByLocation = (location: Location) => {
+export const getAnimalsByLocation = (location: Location): Animal[] => {
   return animals.filter(animal => animal.location === location)
+}
+
+// Helper function to get unique animal types
+export const getUniqueAnimalTypes = (): string[] => {
+  return Array.from(new Set(animals.map(animal => animal.type)))
+}
+
+// Helper function to get animal count by type
+export const getAnimalCountByType = (type: string): number => {
+  return animals.filter(animal => animal.type === type).length
+}
+
+// Helper function to get animal count by location
+export const getAnimalCountByLocation = (location: Location): number => {
+  return animals.filter(animal => animal.location === location).length
 }

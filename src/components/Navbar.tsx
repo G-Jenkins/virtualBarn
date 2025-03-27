@@ -1,21 +1,54 @@
 import { Link, useLocation } from 'react-router-dom'
-import { useState } from 'react'
-import { Menu as MenuIcon, X as XIcon } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import {
+  Menu as MenuIcon,
+  X as XIcon,
+  Home,
+  PawPrint,
+  MapPin,
+  Users,
+  Info,
+  BookOpen,
+  ShoppingBag,
+  Heart,
+  Leaf,
+  Building,
+  Dog,
+  Map,
+  Handshake,
+  HelpCircle,
+  Book,
+  Store,
+  Gift,
+  Tree
+} from 'lucide-react'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMenuOpen])
+
   const navItems = [
-    { id: 'home', label: 'Home', path: '/' },
-    { id: 'animals', label: 'Animals', path: '/animals' },
-    { id: 'visit', label: 'Visit', path: '/visit' },
-    { id: 'programs', label: 'Programs', path: '/programs' },
-    { id: 'about', label: 'About', path: '/about' },
-    { id: 'blog', label: 'Blog', path: '/blog' },
-    { id: 'store', label: 'Store', path: '/store' },
-    { id: 'donate', label: 'Donate', path: '/donate' },
-    { id: 'legacy', label: 'Legacy Giving', path: '/legacy' },
+    { id: 'home', label: 'Home', path: '/', icon: Home },
+    { id: 'animals', label: 'Animals', path: '/animals', icon: PawPrint },
+    { id: 'visit', label: 'Visit', path: '/visit', icon: MapPin },
+    { id: 'programs', label: 'Programs', path: '/programs', icon: Users },
+    { id: 'about', label: 'About', path: '/about', icon: Info },
+    { id: 'blog', label: 'Blog', path: '/blog', icon: BookOpen },
+    { id: 'store', label: 'Store', path: '/store', icon: ShoppingBag },
+    { id: 'donate', label: 'Donate', path: '/donate', icon: Heart },
+    { id: 'legacy', label: 'Legacy Giving', path: '/legacy', icon: Leaf },
   ]
 
   const isCurrentPath = (path: string) => {
@@ -27,11 +60,31 @@ const Navbar = () => {
 
   return (
     <nav className="relative bg-white shadow-sm mb-6">
-      {/* Mobile Menu Button */}
-      <div className="md:hidden flex justify-end p-4">
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex justify-center gap-6 py-4 px-4 text-sm text-blue-700">
+        {navItems.map((item) => {
+          const Icon = item.icon
+          return (
+            <Link
+              key={item.id}
+              to={item.path}
+              className={`
+                flex items-center gap-2 transition-all duration-300 hover:scale-110 hover:text-blue-900
+                ${isCurrentPath(item.path) ? 'font-bold text-blue-900' : ''}
+              `}
+            >
+              <Icon size={16} className="flex-shrink-0" />
+              <span>{item.label}</span>
+            </Link>
+          )
+        })}
+      </div>
+
+      {/* Mobile Menu Button - Fixed Position */}
+      <div className="md:hidden fixed top-4 right-4 z-50">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-gray-700 hover:text-gray-900 focus:outline-none"
+          className="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-lg text-blue-700 hover:text-blue-900 focus:outline-none"
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
           {isMenuOpen ? (
@@ -42,43 +95,34 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex justify-center gap-6 py-4 px-4 text-sm text-blue-700">
-        {navItems.map((item) => (
-          <Link
-            key={item.id}
-            to={item.path}
-            className={`
-              transition-all duration-300 hover:scale-110 hover:text-blue-900
-              ${isCurrentPath(item.path) ? 'font-bold text-blue-900' : ''}
-            `}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
-
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation Overlay */}
       <div
         className={`
-          md:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-50
-          transform transition-transform duration-300 ease-in-out
-          ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}
+          md:hidden fixed inset-0 bg-white z-40
+          transition-transform duration-300 ease-in-out
+          ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
-        {navItems.map((item) => (
-          <Link
-            key={item.id}
-            to={item.path}
-            className={`
-              block py-3 px-6 text-blue-700 hover:bg-blue-50 transition-colors duration-200
-              ${isCurrentPath(item.path) ? 'font-bold bg-blue-50' : ''}
-            `}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            {item.label}
-          </Link>
-        ))}
+        <div className="pt-20 px-4 h-full overflow-y-auto">
+          {navItems.map((item) => {
+            const Icon = item.icon
+            return (
+              <Link
+                key={item.id}
+                to={item.path}
+                className={`
+                  flex items-center gap-3 py-4 text-lg text-blue-700 hover:bg-blue-50
+                  transition-colors duration-200 rounded-lg px-4 mb-2
+                  ${isCurrentPath(item.path) ? 'font-bold bg-blue-50' : ''}
+                `}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Icon size={24} className="flex-shrink-0" />
+                <span>{item.label}</span>
+              </Link>
+            )
+          })}
+        </div>
       </div>
     </nav>
   )
