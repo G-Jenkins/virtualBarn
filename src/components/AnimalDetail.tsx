@@ -1,72 +1,79 @@
+import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { worthy } from '../data/animals/worthy'
 
-interface AnimalDetailProps {
-  animalId: string
-  onBack: () => void
-}
+const AnimalDetail = () => {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
 
-const AnimalDetail = ({ animalId, onBack }: AnimalDetailProps) => {
+  // For now we're just using Worthy's data
+  // Later this will be fetched based on the id
+  const animal = worthy
+
   return (
     <div className="space-y-6">
       {/* Back Button */}
       <button
-        onClick={onBack}
+        onClick={() => navigate('/animals/horse')}
         className="flex items-center gap-2 text-blue-700 hover:text-blue-900 transition-colors"
       >
         <ArrowLeft size={20} />
-        <span>Back to All Animals</span>
+        <span>Back to Horses</span>
       </button>
 
       {/* Hero Image */}
       <div className="relative h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden">
         <img
-          src="/src/assets/animalCard-Worthy/hero-worthy.jpg"
-          alt="Worthy the Horse"
+          src={animal.images.hero}
+          alt={`${animal.name} at The Gentle Barn`}
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Animal Info */}
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-4">Worthy</h1>
+        <h1 className="text-3xl font-bold mb-4">{animal.name}</h1>
 
         <div className="bg-white rounded-lg shadow-lg p-6 space-y-4">
           <div className="flex flex-wrap gap-4 text-sm">
-            <span className="bg-gentle-green text-white px-3 py-1 rounded-full">Horse</span>
-            <span className="bg-gentle-teal text-white px-3 py-1 rounded-full">California</span>
+            <span className="bg-gentle-green text-white px-3 py-1 rounded-full">
+              {animal.type.charAt(0).toUpperCase() + animal.type.slice(1)}
+            </span>
+            <span className="bg-gentle-teal text-white px-3 py-1 rounded-full">
+              {animal.location}
+            </span>
           </div>
 
           <div className="prose max-w-none">
+            <p>{animal.shortDescription}</p>
+
+            <h2 className="text-xl font-semibold mt-6 mb-3">{animal.name}'s Story</h2>
+            <p>{animal.fullStory}</p>
+
+            <h2 className="text-xl font-semibold mt-6 mb-3">Support {animal.name}</h2>
             <p>
-            Worthy was born with a deformed leg and was kept by someone who could not afford to feed her, let alone to give her the surgery she needed. She hobbled along for a year and by the time we found her she was grossly underweight, malnourished and in tremendous pain.
-
-
-            </p>
-
-            <h2 className="text-xl font-semibold mt-6 mb-3">Worthy's Story</h2>
-            <p>
-            We transported Worthy and her mom Indie to the hospital for surgery. After a long surgery, six months of hospitalization, thousands of dollars in costly vet bills, two casts, a custom made leg brace, many titanium screws and plates, and lots of prayers from around the world, Worthy made it!
-
-
-            </p>
-
-            <h2 className="text-xl font-semibold mt-6 mb-3">Support Worthy</h2>
-            <p>
-            Her leg is now straight and she can walk, run, lay down and play like a normal horse. Worthy will spend the rest of her life at The Gentle Barn, giving hope and inspiration to thousands of children born with differences and struggles of their own.
-
-
+              Help support {animal.name}'s ongoing care and rehabilitation by becoming
+              a sponsor today. Your monthly contribution helps provide food, medical care,
+              and endless love.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-4 mt-6">
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-gentle-orange 700 transition-colors">
-              <span className="block font-semibold">Sponsor Worthy</span>
+            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              <span className="block font-semibold">Sponsor {animal.name}</span>
               <span className="text-xs opacity-90">Ongoing Care and Support</span>
             </button>
-            <button className="bg-blue-600 text-white 600 px-6 py-2 rounded-lg hover:bg-gentle-orange transition-colors">
-              Share Worthy's Story
+            <button className="border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors">
+              Share {animal.name}'s Story
             </button>
           </div>
+
+          {animal.sponsorshipDetails && (
+            <div className="mt-4 text-sm text-gray-600">
+              <p>Monthly Goal: ${animal.sponsorshipDetails.monthlyGoal}</p>
+              <p>Current Sponsors: {animal.sponsorshipDetails.currentSponsors}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

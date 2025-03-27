@@ -12,7 +12,7 @@ function App() {
       <div className="bg-gray-100 text-gray-900 font-sans">
         <Header />
 
-        <main className="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-10 bg-white mt-6 sm:mt-10 rounded shadow">
+        <main className="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-10 bg-white mt-6 sm:mt-0 rounded shadow">
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
