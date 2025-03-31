@@ -15,11 +15,11 @@ const Home = () => {
 
       {/* Call to Action Banner */}
       <div className="bg-gentle-orange text-white p-4 text-center rounded-lg">
-        <h2 className="text-xl font-bold">Welcome to The Gentle Barn</h2>
+        <h2 className="text-xl font-bold text-gray-900">Welcome to The Gentle Barn</h2>
       </div>
 
       {/* Feature Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-900">
         {/* Visit Card */}
         <div className="rounded-lg overflow-hidden shadow-lg">
           <img
