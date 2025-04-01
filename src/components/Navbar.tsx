@@ -27,7 +27,6 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden'
@@ -84,13 +83,13 @@ const Navbar = () => {
       <div className="md:hidden fixed top-4 right-4 z-50">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-lg text-blue-700 hover:text-blue-900 focus:outline-none"
+          className="w-10 h-10 flex items-center justify-center bg-gentle-green rounded-full shadow-lg text-white hover:text-white/80 focus:outline-none"
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
           {isMenuOpen ? (
-            <XIcon size={24} />
+            <XIcon size={24} strokeWidth={2.5} />
           ) : (
-            <MenuIcon size={24} />
+            <MenuIcon size={24} strokeWidth={2.5} />
           )}
         </button>
       </div>
