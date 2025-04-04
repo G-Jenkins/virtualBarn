@@ -15,6 +15,13 @@ export const animalTypes: AnimalType[] = [
     description: 'Meet our gentle giants who have found sanctuary and peace'
   },
   {
+    id: 'donkeys',
+    name: 'Donkeys',
+    imageUrl: '/src/assets/animalGrid/donkey.jpg',
+    count: 10,
+    description: 'Our friendly donkeys, known for their soft wool and gentle nature'
+  },
+  {
     id: 'cows',
     name: 'Cows',
     imageUrl: '/src/assets/animalGrid/cow.jpg',
@@ -29,6 +36,27 @@ export const animalTypes: AnimalType[] = [
     description: 'Intelligent and playful, our pig residents love belly rubs'
   },
   {
+    id: 'dog',
+    name: 'Dog',
+    imageUrl: '/src/assets/animalGrid/dog.jpg',
+    count: 10,
+    description: 'Our friendly dog, known for his soft wool and gentle nature'
+  },
+  {
+     id: 'emu',
+     name: 'Emu',
+     imageUrl: '/src/assets/animalGrid/emu.jpg',
+     count: 10,
+     description: 'Our friendly emu, known for his soft wool and gentle nature'
+  },
+  {
+    id: 'alpacas',
+    name: 'Llama / Alpaca',
+    imageUrl: '/src/assets/animalGrid/llama.jpg',
+    count: 10,
+    description: 'Our friendly alpaca, known for his soft wool and gentle nature'
+  },
+  {
     id: 'chickens',
     name: 'Chickens',
     imageUrl: '/src/assets/animalGrid/chicken.jpg',
@@ -36,10 +64,32 @@ export const animalTypes: AnimalType[] = [
     description: 'Free to roam and be themselves, our feathered friends thrive'
   },
   {
+    id: 'bird',
+    name: 'Bird',
+    imageUrl: '/src/assets/animalGrid/bird.jpg',
+    count: 10,
+    description: 'Our friendly bird, known for his soft wool and gentle nature'
+  },
+  {
+    id: 'goats',
+    name: 'Goats',
+    imageUrl: '/src/assets/animalGrid/goat.jpg',
+    count: 10,
+    description: 'Our friendly goats, known for their soft wool and gentle nature'
+  },
+  { id: 'turkey',
+    name: 'Turkey',
+    imageUrl: '/src/assets/animalGrid/turkey.jpg',
+    count: 10,
+    description: 'Our friendly turkey, known for his soft wool and gentle nature'
+  },
+  {
     id: 'sheep',
     name: 'Sheep',
     imageUrl: '/src/assets/animalGrid/sheep.jpg',
     count: 10,
     description: 'Our friendly sheep, known for their soft wool and gentle nature'
-  }
+  },
+
+
 ]

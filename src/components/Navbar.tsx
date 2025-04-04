@@ -11,16 +11,7 @@ import {
   BookOpen,
   ShoppingBag,
   Heart,
-  Leaf,
-  Building,
-  Dog,
-  Map,
-  Handshake,
-  HelpCircle,
-  Book,
-  Store,
-  Gift,
-  Tree
+  Leaf
 } from 'lucide-react'
 
 const Navbar = () => {
@@ -58,72 +49,115 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="relative bg-white shadow-sm mb-6">
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex justify-center gap-6 py-4 px-4 text-sm text-blue-700">
-        {navItems.map((item) => {
-          const Icon = item.icon
-          return (
+    <header className="relative w-full">
+      {/* Main Navigation Bar */}
+      <div className="flex justify-between items-center px-4 py-4 md:py-6 bg-white">
+        {/* Logo/Brand - Left Side */}
+        <div className="flex items-center">
+          <Link to="/" className="text-xl font-medium">
+            The Gentle Barn
+          </Link>
+        </div>
+
+        {/* Desktop Navigation - Center */}
+        <div className="hidden md:flex items-center justify-center gap-8 text-sm">
+          {navItems.map((item) => (
             <Link
               key={item.id}
               to={item.path}
               className={`
-                flex items-center gap-2 transition-all duration-300 hover:scale-110 hover:text-blue-900
-                ${isCurrentPath(item.path) ? 'font-bold text-blue-900' : ''}
+                relative py-2 transition-colors duration-200 hover:text-gentle-green
+                ${isCurrentPath(item.path) ? 'font-medium text-gentle-green' : 'text-gray-800'}
               `}
             >
-              <Icon size={16} className="flex-shrink-0" />
-              <span>{item.label}</span>
+              {item.label}
+              {isCurrentPath(item.path) && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gentle-green"></span>
+              )}
             </Link>
-          )
-        })}
+          ))}
+        </div>
+
+        {/* Right Side Controls */}
+        <div className="flex items-center gap-4">
+          <Link to="/donate" className="hidden md:block text-sm font-medium hover:text-gentle-green">
+            Donate
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden flex items-center justify-center w-6 h-6 text-gray-800"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isMenuOpen ? (
+              <XIcon size={24} />
+            ) : (
+              <MenuIcon size={24} />
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu Button - Fixed Position */}
-      <div className="md:hidden fixed top-4 right-4 z-50">
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="w-10 h-10 flex items-center justify-center bg-gentle-green rounded-full shadow-lg text-white hover:text-white/80 focus:outline-none"
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isMenuOpen ? (
-            <XIcon size={24} strokeWidth={2.5} />
-          ) : (
-            <MenuIcon size={24} strokeWidth={2.5} />
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Navigation Overlay */}
+      {/* Mobile Navigation Menu */}
       <div
         className={`
-          md:hidden fixed inset-0 bg-white z-40
-          transition-transform duration-300 ease-in-out
+          fixed inset-0 bg-white z-50 transform transition-transform duration-300 ease-in-out
           ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
-        <div className="pt-20 px-4 h-full overflow-y-auto">
-          {navItems.map((item) => {
-            const Icon = item.icon
-            return (
-              <Link
-                key={item.id}
-                to={item.path}
-                className={`
-                  flex items-center gap-3 py-4 text-lg text-blue-700 hover:bg-blue-50
-                  transition-colors duration-200 rounded-lg px-4 mb-2
-                  ${isCurrentPath(item.path) ? 'font-bold bg-blue-50' : ''}
-                `}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Icon size={24} className="flex-shrink-0" />
-                <span>{item.label}</span>
-              </Link>
-            )
-          })}
+        <div className="flex flex-col h-full">
+          {/* Mobile Menu Header */}
+          <div className="flex justify-between items-center p-4 border-b border-gray-100">
+            <Link
+              to="/"
+              className="text-xl font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              The Gentle Barn
+            </Link>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center justify-center w-10 h-10"
+              aria-label="Close menu"
+            >
+              <XIcon size={24} />
+            </button>
+          </div>
+
+          {/* Mobile Menu Items */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex flex-col">
+              {navItems.map((item) => {
+                const Icon = item.icon
+                return (
+                  <Link
+                    key={item.id}
+                    to={item.path}
+                    className={`
+                      flex items-center py-4 border-b border-gray-100
+                      ${isCurrentPath(item.path) ? 'text-gentle-green font-medium' : 'text-gray-800'}
+                    `}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="flex-1">{item.label}</span>
+                    <Icon size={16} className="flex-shrink-0" />
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Mobile Menu Footer */}
+          <div className="p-4 border-t border-gray-100">
+            <div className="flex flex-col gap-4">
+              <a href="#" className="text-sm text-gray-600">Contact Us</a>
+              <a href="#" className="text-sm text-gray-600">FAQ</a>
+            </div>
+          </div>
         </div>
       </div>
-    </nav>
+    </header>
   )
 }
 
