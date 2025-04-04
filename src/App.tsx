@@ -1,12 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Header from './components/Header'
-import Navbar from './components/Navbar'
-import Home from './components/Home'
-import Animals from './components/Animals'
-import AnimalTypeList from './components/AnimalTypeList'
-import AnimalDetail from './components/AnimalDetail'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { AnimalProvider } from './context/AnimalContext'
-import Footer from './components/Footer'
+import Header from './components/layout/Header'
+import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
+import AppRoutes from './routes/AppRoutes'
 
 function App() {
   return (
@@ -14,17 +11,10 @@ function App() {
       <AnimalProvider>
         <div className="min-h-screen flex flex-col bg-gray-50">
           <Header />
-
           <main className="flex-grow w-full max-w-full mx-auto bg-white">
             <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/animals" element={<Animals />} />
-              <Route path="/animals/:type" element={<AnimalTypeList />} />
-              <Route path="/animals/:type/:id" element={<AnimalDetail />} />
-            </Routes>
+            <AppRoutes />
           </main>
-
           <Footer />
         </div>
       </AnimalProvider>

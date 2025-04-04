@@ -1,7 +1,7 @@
 export interface Animal {
   id: string;
   name: string;
-  type: AnimalType;
+  type: 'horses' | 'donkeys' | 'cows' | 'pigs' | 'dog' | 'emu' | 'alpacas' | 'chickens' | 'bird' | 'goats' | 'turkey' | 'sheep';
   location: 'California' | 'Tennessee';
   thumbnailUrl: string;
   heroImageUrl: string;

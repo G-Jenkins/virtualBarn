@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Animal } from '../types/animal';
+import { Animal } from '../../types/animal';
 
 interface AnimalCardProps {
   animal: Animal;

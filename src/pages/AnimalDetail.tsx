@@ -1,20 +1,37 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import { worthy } from '../data/animals/worthy'
+import { useAnimal } from '../context/AnimalContext'
+import { getAnimalById } from '../data/animals'
+import SponsorshipModal from '../components/common/SponsorshipModal'
 
 const AnimalDetail = () => {
-  const { id } = useParams<{ id: string }>()
+  const { id, type } = useParams<{ id: string; type: string }>()
   const navigate = useNavigate()
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false)
 
-  // For now we're just using Worthy's data
-  // Later this will be fetched based on the id
-  const animal = worthy
+  const animal = id ? getAnimalById(id) : null
+
+  if (!animal) {
+    return (
+      <div className="p-8 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Animal Not Found</h2>
+        <p className="text-gray-600 mb-4">Sorry, we couldn't find this animal.</p>
+        <button
+          onClick={() => navigate('/animals')}
+          className="text-blue-600 hover:underline"
+        >
+          Return to Animals Page
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
       {/* Back Button */}
       <button
-        onClick={() => navigate('/animals/horse')}
+        onClick={() => navigate(`/animals/${type}`)}
         className="group flex items-center gap-2 bg-white px-4 py-2 rounded-lg
           shadow-sm hover:shadow-md transition-all duration-300
           text-gray-700 hover:text-blue-600"
@@ -22,13 +39,13 @@ const AnimalDetail = () => {
         <ArrowLeft size={20}
           className="transform transition-transform duration-300 group-hover:-translate-x-1"
         />
-        <span className="font-medium">Back to Horses</span>
+        <span className="font-medium">Back to {type?.charAt(0).toUpperCase()}{type?.slice(1)}</span>
       </button>
 
       {/* Hero Image */}
       <div className="relative h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden">
         <img
-          src={animal.images.hero}
+          src={animal.heroImageUrl}
           alt={`${animal.name} at The Gentle Barn`}
           className="w-full h-full object-cover"
         />
@@ -41,7 +58,7 @@ const AnimalDetail = () => {
         <div className="bg-white rounded-lg shadow-lg p-6 space-y-4">
           <div className="flex flex-wrap gap-4 text-sm">
             <span className="bg-gentle-green text-white px-3 py-1 rounded-full">
-              {animal.type.charAt(0).toUpperCase() + animal.type.slice(1)}
+              {type?.charAt(0).toUpperCase()}{type?.slice(1)}
             </span>
             <span className="bg-gentle-teal text-white px-3 py-1 rounded-full">
               {animal.location}
@@ -52,7 +69,13 @@ const AnimalDetail = () => {
             <p>{animal.shortDescription}</p>
 
             <h2 className="text-xl font-semibold mt-6 mb-3 text-gray-900">{animal.name}'s Story</h2>
-            <p className="text-gray-800">{animal.fullStory}</p>
+            <p className="text-gray-800 whitespace-pre-line">{animal.rescueStory}</p>
+
+            <h2 className="text-xl font-semibold mt-6 mb-3 text-gray-900">Medical History</h2>
+            <p className="text-gray-800">{animal.medicalHistory}</p>
+
+            <h2 className="text-xl font-semibold mt-6 mb-3 text-gray-900">Personality</h2>
+            <p className="text-gray-800">{animal.personality}</p>
 
             <h2 className="text-xl font-semibold mt-6 mb-3 text-gray-900">Support {animal.name}</h2>
             <p className="text-gray-800">
@@ -63,23 +86,33 @@ const AnimalDetail = () => {
           </div>
 
           <div className="flex flex-wrap gap-4 mt-6">
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <button
+              onClick={() => setIsSponsorModalOpen(true)}
+              className="bg-teal-700 text-white px-6 py-3 rounded-lg hover:bg-teal-800 transition-colors"
+            >
               <span className="block font-semibold">Sponsor {animal.name}</span>
-              <span className="text-xs opacity-90">Ongoing Care and Support</span>
+              <span className="text-xs opacity-90">
+                Ongoing Care & Support
+              </span>
             </button>
             <button className="border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors">
               Share {animal.name}'s Story
             </button>
           </div>
 
-          {animal.sponsorshipDetails && (
-            <div className="mt-4 text-gray-600 text-sm">
-              <p>Monthly Goal: ${animal.sponsorshipDetails.monthlyGoal}</p>
-              <p>Current Sponsors: {animal.sponsorshipDetails.currentSponsors}</p>
-            </div>
-          )}
+          <div className="mt-4 text-gray-600 text-sm">
+            <p>Monthly Sponsorship: ${animal.sponsorshipOptions.monthly}</p>
+            <p>Yearly Sponsorship: ${animal.sponsorshipOptions.yearly}</p>
+          </div>
         </div>
       </div>
+
+      {/* Sponsorship Modal */}
+      <SponsorshipModal
+        isOpen={isSponsorModalOpen}
+        onClose={() => setIsSponsorModalOpen(false)}
+        animal={animal}
+      />
     </div>
   )
 }

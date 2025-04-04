@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Search } from 'lucide-react'
-import { animalTypes } from '../data/animalTypes'
-import { useAnimal } from '../context/AnimalContext'
+import { animalTypes } from '../../data/animalTypes'
+import { useAnimal } from '../../context/AnimalContext'
+import AnimalCard from './AnimalCard'
 
 type LocationFilter = 'all' | 'CA' | 'TN'
 
