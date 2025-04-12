@@ -38,40 +38,40 @@ const SponsorshipModal = ({ isOpen, onClose, animal }: SponsorshipModalProps) =>
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`Sponsor ${animal.name}`}>
-      <div className="space-y-6 bg-gentle-green bg-opacity-30 p-4 rounded-lg">
+      <div className="space-y-6 bg-gentle-green p-4 rounded-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Payment Frequency */}
             <div className="flex items-center gap-6">
               <label className="flex items-center">
                 <input
                   type="radio"
-                  className="w-5 h-5 text-blue-600"
+                  className="w-5 h-5 text-gentle-teal"
                   checked={sponsorshipType === 'monthly'}
                   onChange={() => setSponsorshipType('monthly')}
                 />
-                <span className="ml-2 text-lg">Monthly<span className="text-sm text-gray-600">(recurring)</span></span>
+                <span className="ml-2 text-lg text-white">Monthly<span className="text-white text-sm">(recurring)</span></span>
               </label>
               <label className="flex items-center">
                 <input
                   type="radio"
-                  className="w-5 h-5 text-blue-600"
+                  className="w-5 h-5 text-gentle-teal"
                   checked={sponsorshipType === 'yearly'}
                   onChange={() => setSponsorshipType('yearly')}
                 />
-                <span className="ml-2 text-lg">1yr</span>
+                <span className="ml-2 text-lg text-white">1yr</span>
               </label>
             </div>
 
             {/* Amount Options */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-4 gap-2">
               {[15, 25, 50, 100].map((value) => (
                 <button
                   key={value}
                   className={`py-3 px-4 rounded-md ${
                     amount === value && !customAmount
-                      ? 'bg-teal-700 text-white'
-                      : 'bg-teal-600 text-white hover:bg-teal-700'
+                      ? 'bg-gentle-teal text-white'
+                      : 'bg-gentle-teal text-white hover:bg-teal-800'
                   }`}
                   onClick={() => handleAmountSelect(value)}
                 >
@@ -82,7 +82,7 @@ const SponsorshipModal = ({ isOpen, onClose, animal }: SponsorshipModalProps) =>
 
             {/* Custom Amount */}
             <div className="flex">
-              <div className="flex items-center px-3 bg-teal-600 text-white rounded-l-md">
+              <div className="flex items-center px-3 bg-gentle-teal text-white rounded-l-md">
                 $
               </div>
               <input
@@ -90,44 +90,44 @@ const SponsorshipModal = ({ isOpen, onClose, animal }: SponsorshipModalProps) =>
                 placeholder="Custom Amount ($15 min)"
                 value={customAmount}
                 onChange={handleCustomAmountChange}
-                className="flex-1 py-2 px-3 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 py-2 px-3 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-900 text-white"
               />
             </div>
 
             {/* Recurring confirmation */}
             {sponsorshipType === 'monthly' && (
-              <label className="flex items-center">
+              <label className="flex items-center bg-green-100 bg-opacity-30 p-3 rounded">
                 <input
                   type="checkbox"
                   checked={isRecurringConfirmed}
                   onChange={() => setIsRecurringConfirmed(!isRecurringConfirmed)}
-                  className="w-5 h-5 text-blue-600"
+                  className="w-5 h-5 text-gentle-teal"
                 />
-                <span className="ml-2">I understand this will be a recurring monthly.</span>
+                <span className="ml-2 text-white">I understand this will be a recurring monthly.</span>
               </label>
             )}
 
             {/* Transaction fee */}
-            <label className="flex items-center">
+            <label className="flex items-center bg-green-100 bg-opacity-30 p-3 rounded">
               <input
                 type="checkbox"
                 checked={addDonationFee}
                 onChange={() => setAddDonationFee(!addDonationFee)}
-                className="w-5 h-5 text-blue-600"
+                className="w-5 h-5 text-gentle-teal"
               />
-              <span className="ml-2">Add $2/transaction to help cover fees.</span>
+              <span className="ml-2 text-white">Add $2/transaction to help cover fees.</span>
             </label>
 
             {/* Gift option */}
-            <label className="flex items-center">
+            <label className="flex items-center bg-green-100 bg-opacity-30 p-3 rounded">
               <input
                 type="checkbox"
                 checked={isGift}
                 onChange={() => setIsGift(!isGift)}
-                className="w-5 h-5 text-blue-600"
+                className="w-5 h-5 text-gentle-teal"
               />
-              <span className="ml-2 text-red-600 font-semibold">YES,</span>
-              <span className="ml-1">this sponsorship is a gift</span>
+              <span className="ml-2 text-red-600 font-bold">YES,</span>
+              <span className="ml-1 text-white">this sponsorship is a gift</span>
             </label>
           </div>
 
@@ -144,25 +144,25 @@ const SponsorshipModal = ({ isOpen, onClose, animal }: SponsorshipModalProps) =>
         </div>
 
         {/* Certificate Options */}
-        <div className="pt-4 border-t border-gray-300">
-          <div className="bg-teal-700 text-white px-4 py-2 inline-block">
+        <div className="pt-2 border-t border-gray-300">
+          <div className="bg-gentle-teal text-white px-4 py-2 inline-block">
             Certificate Options
           </div>
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 space-y-3 bg-green-100 bg-opacity-30 p-4 rounded">
             <label className="flex items-center">
               <input
                 type="radio"
                 name="certificate"
                 checked={certificateOption === 'none'}
                 onChange={() => setCertificateOption('none')}
-                className="w-5 h-5 text-blue-600"
+                className="w-5 h-5 text-gentle-teal"
               />
               <div className="ml-2">
-                <span className="text-lg">No Cert, Updates Only</span>
-                <span className="text-sm italic ml-2">(Save GB Time, Money & Resources.)</span>
+                <span className="text-lg text-white">No Cert, Updates Only</span>
+                <span className="text-sm italic ml-2 text-white">(Save GB Time, Money & Resources.)</span>
               </div>
             </label>
-            <p className="text-sm ml-7">** No certificate or gift announcement will be issued!</p>
+            <p className="text-sm ml-7 text-white">** No certificate or gift announcement will be issued!</p>
 
             <label className="flex items-center">
               <input
@@ -170,36 +170,38 @@ const SponsorshipModal = ({ isOpen, onClose, animal }: SponsorshipModalProps) =>
                 name="certificate"
                 checked={certificateOption === 'digital'}
                 onChange={() => setCertificateOption('digital')}
-                className="w-5 h-5 text-blue-600"
+                className="w-5 h-5 text-gentle-teal"
               />
               <div className="ml-2">
-                <span className="text-lg">Digital</span>
-                <span className="text-sm italic ml-2">(Emailed PDF, 7-10 business days to receive)</span>
+                <span className="text-lg text-white">Digital</span>
+                <span className="text-sm italic ml-2 text-white">(Emailed PDF, 7-10 business days to receive)</span>
               </div>
             </label>
           </div>
         </div>
 
         {/* Honor Section */}
-        <div className="pt-4 border-t border-gray-300">
-          <div className="bg-teal-700 text-white px-4 py-2 inline-block">
+        <div className="pt-2 border-t border-gray-300">
+          <div className="bg-gentle-teal text-white px-4 py-2 inline-block">
             In {animal.name}'s Honor
           </div>
-          <p className="mt-4 italic text-gray-700">
-            As much as we love them, farm animals have shorter lives than we do. If in the
-            unfortunate case they pass, please let us know how you would like to best honor
-            {animal.name}.
-          </p>
-          <div className="mt-3">
-            <select
-              className="w-full p-2 border border-gray-300 rounded"
-              defaultValue=""
-            >
-              <option value="" disabled>Convert to same/similar animal type</option>
-              <option value="same">Same type of animal</option>
-              <option value="similar">Similar animal</option>
-              <option value="any">Any animal in need</option>
-            </select>
+          <div className="mt-4 bg-green-100 bg-opacity-30 p-4 rounded">
+            <p className="italic text-white">
+              As much as we love them, farm animals have shorter lives than we do. If in the
+              unfortunate case they pass, please let us know how you would like to best honor
+              {animal.name}.
+            </p>
+            <div className="mt-3">
+              <select
+                className="w-full p-2 border border-gray-300 rounded bg-gray-900 text-white"
+                defaultValue=""
+              >
+                <option value="" disabled>Convert to same/similar animal type</option>
+                <option value="same">Same type of animal</option>
+                <option value="similar">Similar animal</option>
+                <option value="any">Any animal in need</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -207,13 +209,13 @@ const SponsorshipModal = ({ isOpen, onClose, animal }: SponsorshipModalProps) =>
         <button
           onClick={handleSponsorSubmit}
           disabled={!amount || (sponsorshipType === 'monthly' && !isRecurringConfirmed)}
-          className="w-full py-3 px-6 text-lg font-bold text-gray-900 bg-yellow-400 rounded-md
-            hover:bg-yellow-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 px-6 text-lg font-bold text-gray-900 bg-gentle-orange rounded-md
+            hover:bg-yellow-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Sponsor Now
         </button>
 
-        <p className="text-sm italic text-center">
+        <p className="text-sm italic text-center text-white">
           *The ultimate use of your donation is at the discretion of The Gentle Barn and it's Board of Directors.
         </p>
       </div>

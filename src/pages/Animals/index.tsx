@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { animalTypes } from '../../data/animalTypes'
 import { useAnimal } from '../../context/AnimalContext'
-import AnimalCard from './AnimalCard'
 
 type LocationFilter = 'all' | 'CA' | 'TN'
 
@@ -24,7 +23,6 @@ const Animals = () => {
       )
     }
 
-    // Apply location filter (when we have location data)
     // For now, this is a placeholder for when we have location data
     if (state.activeLocation !== 'all') {
       // filtered = filtered.filter(type => type.location === state.activeLocation)
