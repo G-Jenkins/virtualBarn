@@ -1,0 +1,88 @@
+{
+  "categories": [
+    {
+      "id": "cows",
+      "name": "Cows",
+      "description": "Our gentle bovine friends who love to graze and socialize",
+      "imageUrl": "/src/assets/animalGrid/cow.jpg",
+      "count": 5
+    },
+    {
+      "id": "horses",
+      "name": "Horses",
+      "description": "Majestic equine companions who enjoy running and being groomed",
+      "imageUrl": "/src/assets/animalGrid/horse.jpg",
+      "count": 3
+    },
+    {
+      "id": "sheep",
+      "name": "Sheep",
+      "description": "Gentle grazers who love to flock together",
+      "imageUrl": "/src/assets/animalGrid/sheep.jpg",
+      "count": 4
+    },
+    {
+      "id": "goats",
+      "name": "Goats",
+      "description": "Playful and curious climbers who love to explore",
+      "imageUrl": "/src/assets/animalGrid/goat.jpg",
+      "count": 6
+    },
+    {
+      "id": "pigs",
+      "name": "Pigs",
+      "description": "Intelligent and social animals who love to root and play",
+      "imageUrl": "/src/assets/animalGrid/pig.jpg",
+      "count": 4
+    },
+    {
+      "id": "chickens",
+      "name": "Chickens",
+      "description": "Curious birds who enjoy scratching and dust bathing",
+      "imageUrl": "/src/assets/animalGrid/chicken.jpg",
+      "count": 8
+    },
+    {
+      "id": "turkeys",
+      "name": "Turkeys",
+      "description": "Social birds who love to strut and gobble",
+      "imageUrl": "/src/assets/animalGrid/turkey.jpg",
+      "count": 3
+    },
+    {
+      "id": "dogs",
+      "name": "Dogs",
+      "description": "Loyal companions who love to play and protect",
+      "imageUrl": "/src/assets/animalGrid/dog.jpg",
+      "count": 2
+    },
+    {
+      "id": "emu",
+      "name": "Emu",
+      "description": "Curious and fast-running birds from Australia",
+      "imageUrl": "/src/assets/animalGrid/emu.jpg",
+      "count": 1
+    },
+    {
+      "id": "donkeys",
+      "name": "Donkeys",
+      "description": "Strong and gentle animals who form deep bonds",
+      "imageUrl": "/src/assets/animalGrid/donkey.jpg",
+      "count": 2
+    },
+    {
+      "id": "llama",
+      "name": "Llama/Alpaca",
+      "description": "Gentle camelids who love to socialize",
+      "imageUrl": "/src/assets/animalGrid/llama.jpg",
+      "count": 3
+    },
+    {
+      "id": "birds",
+      "name": "Birds",
+      "description": "Colorful and vocal feathered friends",
+      "imageUrl": "/src/assets/animalGrid/bird.jpg",
+      "count": 5
+    }
+  ]
+}

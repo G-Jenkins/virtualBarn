@@ -1,45 +1,52 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search } from 'lucide-react'
-import { animalTypes } from '../../data/animalTypes'
-import { useAnimal } from '../../context/AnimalContext'
+import { dataService } from '../../services/dataService'
 
 type LocationFilter = 'all' | 'CA' | 'TN'
 
+interface Category {
+  id: string
+  name: string
+  description: string
+  imageUrl: string
+  count: number
+}
+
 const Animals = () => {
-  const { state, dispatch } = useAnimal()
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [activeLocation, setActiveLocation] = useState<LocationFilter>('all')
 
-  // Memoized filtered results
-  const filteredAnimalTypes = useMemo(() => {
-    // Start with all animal types
-    let filtered = [...animalTypes]
-
-    // Apply search filter
-    if (state.searchQuery.trim()) {
-      const query = state.searchQuery.toLowerCase()
-      filtered = filtered.filter(type =>
-        type.name.toLowerCase().includes(query) ||
-        type.description.toLowerCase().includes(query)
-      )
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await dataService.getCategories()
+        setCategories(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load animal categories')
+      } finally {
+        setLoading(false)
+      }
     }
 
-    // For now, this is a placeholder for when we have location data
-    if (state.activeLocation !== 'all') {
-      // filtered = filtered.filter(type => type.location === state.activeLocation)
-    }
+    fetchCategories()
+  }, [])
 
-    return filtered
-  }, [state.searchQuery, state.activeLocation])
+  // Filter categories based on search query (probably not needed )
+  const filteredCategories = categories.filter(category => {
+    if (!category || !category.name || !category.description) return false;
+    const query = searchQuery.toLowerCase();
+    return (
+      category.name.toLowerCase().includes(query) ||
+      category.description.toLowerCase().includes(query)
+    );
+  });
 
-  // Simulate loading state when filters change
-  const handleLocationChange = (location: LocationFilter) => {
-    dispatch({ type: 'SET_LOADING', payload: true })
-    dispatch({ type: 'SET_LOCATION', payload: location })
-    // Simulate API call delay
-    setTimeout(() => {
-      dispatch({ type: 'SET_LOADING', payload: false })
-    }, 300)
-  }
+  if (loading) return <div className="text-center py-8">Loading categories...</div>
+  if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>
 
   return (
     <div className="space-y-6">
@@ -56,14 +63,13 @@ const Animals = () => {
           ].map((location) => (
             <button
               key={location.id}
-              onClick={() => handleLocationChange(location.id as LocationFilter)}
+              onClick={() => setActiveLocation(location.id as LocationFilter)}
               className={`
                 px-4 py-2 rounded font-semibold transition-all duration-300
-                ${state.activeLocation === location.id
+                ${activeLocation === location.id
                   ? 'bg-gentle-green text-white scale-105'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}
               `}
-              disabled={state.isLoading}
             >
               {location.label}
               {location.id !== 'all' && (
@@ -80,22 +86,22 @@ const Animals = () => {
           <Search
             className={`
               absolute left-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300
-              ${state.searchQuery ? 'text-gentle-green' : 'text-gray-400'}
+              ${searchQuery ? 'text-gentle-green' : 'text-gray-400'}
             `}
             size={20}
           />
           <input
             type="text"
             placeholder="Search animals..."
-            value={state.searchQuery}
-            onChange={(e) => dispatch({ type: 'SET_SEARCH', payload: e.target.value })}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded
               focus:outline-none focus:ring-2 focus:ring-gentle-green focus:border-transparent
               transition-all duration-300"
           />
-          {state.searchQuery && (
+          {searchQuery && (
             <button
-              onClick={() => dispatch({ type: 'SET_SEARCH', payload: '' })}
+              onClick={() => setSearchQuery('')}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400
                 hover:text-gray-600 transition-colors duration-300"
             >
@@ -110,21 +116,14 @@ const Animals = () => {
         </button>
       </div>
 
-      {/* Loading State */}
-      {state.isLoading && (
-        <div className="text-center py-4 text-gray-500">
-          Loading animals...
-        </div>
-      )}
-
       {/* No Results State */}
-      {!state.isLoading && filteredAnimalTypes.length === 0 && (
+      {!loading && filteredCategories.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-500 text-lg">No animals found matching your criteria</p>
+          <p className="text-gray-500 text-lg">No categories found matching your search</p>
           <button
             onClick={() => {
-              dispatch({ type: 'SET_SEARCH', payload: '' })
-              dispatch({ type: 'SET_LOCATION', payload: 'all' })
+              setSearchQuery('')
+              setActiveLocation('all')
             }}
             className="mt-4 text-blue-600 hover:underline"
           >
@@ -133,23 +132,19 @@ const Animals = () => {
         </div>
       )}
 
-      {/* Animal Types Grid */}
-      <div className={`
-        grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6
-        transition-opacity duration-300
-        ${state.isLoading ? 'opacity-50' : 'opacity-100'}
-      `}>
-        {filteredAnimalTypes.map((type) => (
+      {/* Categories Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredCategories.map((category) => (
           <Link
-            key={type.id}
-            to={`/animals/${type.id}`}
+            key={category.id}
+            to={`/animals/${category.id}`}
             className="group flex flex-col overflow-hidden rounded-lg shadow-md border
               bg-white transition-all duration-300 hover:shadow-xl hover:scale-102"
           >
             <div className="relative aspect-square overflow-hidden">
               <img
-                src={type.imageUrl}
-                alt={type.name}
+                src={category.imageUrl}
+                alt={category.name}
                 className="absolute inset-0 w-full h-full object-cover
                   transition-transform duration-300 group-hover:scale-110"
               />
@@ -157,14 +152,14 @@ const Animals = () => {
                 transition-opacity duration-300 group-hover:bg-opacity-30" />
               <div className="absolute top-3 right-3 bg-gentle-orange text-white
                 px-3 py-1 rounded-full text-sm font-semibold">
-                {type.count} Animals
+                {category.count} Animals
               </div>
             </div>
             <div className="p-4">
-              <h3 className="text-xl font-semibold mb-2">{type.name}</h3>
-              <p className="text-gray-600 text-sm">{type.description}</p>
+              <h3 className="text-xl font-semibold mb-2">{category.name}</h3>
+              <p className="text-gray-600 text-sm">{category.description}</p>
               <span className="inline-block mt-3 text-blue-600 text-sm group-hover:underline">
-                Meet Our {type.name} →
+                Meet Our {category.name} →
               </span>
             </div>
           </Link>
