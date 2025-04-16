@@ -1,31 +1,39 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import { useAnimal } from '../context/AnimalContext'
-import { getAnimalById } from '../data/animals'
+import { dataService } from '../services/dataService'
+import type { Animal } from '../types/animal'
 import SponsorshipModal from '../components/common/SponsorshipModal'
 
 const AnimalDetail = () => {
   const { id, type } = useParams<{ id: string; type: string }>()
   const navigate = useNavigate()
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false)
+  const [animal, setAnimal] = useState<Animal | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const animal = id ? getAnimalById(id) : null
+  useEffect(() => {
+    const fetchAnimal = async () => {
+      if (!id) return
 
-  if (!animal) {
-    return (
-      <div className="p-8 text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Animal Not Found</h2>
-        <p className="text-gray-600 mb-4">Sorry, we couldn't find this animal.</p>
-        <button
-          onClick={() => navigate('/animals')}
-          className="text-blue-600 hover:underline"
-        >
-          Return to Animals Page
-        </button>
-      </div>
-    )
-  }
+      try {
+        const data = await dataService.getAnimalById(id)
+        setAnimal(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load animal')
+        navigate('/animals')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAnimal()
+  }, [id, navigate])
+
+  if (loading) return <div className="text-center py-8">Loading animal details...</div>
+  if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>
+  if (!animal) return <div className="text-center py-8">Animal not found</div>
 
   return (
     <div className="space-y-6">
