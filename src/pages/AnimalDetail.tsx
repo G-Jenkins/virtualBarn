@@ -4,11 +4,13 @@ import { ArrowLeft } from 'lucide-react'
 import { dataService } from '../services/dataService'
 import type { Animal } from '../types/animal'
 import SponsorshipModal from '../components/common/SponsorshipModal'
+import StoryModal from '../components/common/StoryModal'
 
 const AnimalDetail = () => {
   const { id, type } = useParams<{ id: string; type: string }>()
   const navigate = useNavigate()
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false)
+  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false)
   const [animal, setAnimal] = useState<Animal | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -103,7 +105,10 @@ const AnimalDetail = () => {
                 Ongoing Care & Support
               </span>
             </button>
-            <button className="border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors">
+            <button
+              onClick={() => setIsStoryModalOpen(true)}
+              className="border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+            >
               Share {animal.name}'s Story
             </button>
           </div>
@@ -119,6 +124,13 @@ const AnimalDetail = () => {
       <SponsorshipModal
         isOpen={isSponsorModalOpen}
         onClose={() => setIsSponsorModalOpen(false)}
+        animal={animal}
+      />
+
+      {/* Story Modal */}
+      <StoryModal
+        isOpen={isStoryModalOpen}
+        onClose={() => setIsStoryModalOpen(false)}
         animal={animal}
       />
     </div>
