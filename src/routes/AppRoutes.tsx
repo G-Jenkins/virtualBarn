@@ -7,6 +7,7 @@ const Animals = lazy(() => import('../pages/Animals'))
 const AnimalTypeList = lazy(() => import('../pages/AnimalTypeList'))
 const AnimalDetail = lazy(() => import('../pages/AnimalDetail'))
 const About = lazy(() => import('../pages/About'))
+const Programs = lazy(() => import('../pages/Programs'))
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         <Route path="/animals/:type" element={<AnimalTypeList />} />
         <Route path="/animals/:type/:id" element={<AnimalDetail />} />
         <Route path="/about" element={<About />} />
+        <Route path="/programs" element={<Programs />} />
       </Routes>
     </Suspense>
   )
